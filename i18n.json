@@ -1,0 +1,34 @@
+{
+  "en": {
+    "back_to_portal": "&larr; Back to Portal",
+    "tool_timer": "Tool // Timer",
+    "countdown_timer": "Countdown Timer",
+    "running": "Running",
+    "finished": "Finished!",
+    "set_time": "Set Time",
+    "hours": "HR",
+    "minutes": "MIN",
+    "seconds": "SEC",
+    "start_timer": "Start Timer",
+    "pause": "Pause",
+    "resume": "Resume",
+    "restart": "Restart",
+    "cancel": "Cancel"
+  },
+  "ja": {
+    "back_to_portal": "&larr; ポータルに戻る",
+    "tool_timer": "Tool // Timer",
+    "countdown_timer": "Countdown Timer",
+    "running": "Running",
+    "finished": "Finished!",
+    "set_time": "Set Time",
+    "hours": "時",
+    "minutes": "分",
+    "seconds": "秒",
+    "start_timer": "タイマー開始",
+    "pause": "一時停止",
+    "resume": "再開",
+    "restart": "もう一度",
+    "cancel": "キャンセル"
+  }
+}
