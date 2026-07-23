@@ -122,14 +122,14 @@
       <div class="flex items-center gap-3">
         <!-- Fullscreen Switcher -->
         <button @click="toggleFullscreen" 
-                class="w-10 h-10 rounded-xl flex items-center justify-center border border-slate-700/50 bg-slate-900/60 text-slate-400 hover:text-white hover:border-cyan-500/40 transition duration-300"
+                class="w-10 h-10 rounded-xl flex items-center justify-center border border-slate-700/50 bg-slate-900/60 text-slate-400 hover:text-white hover:border-cyan-500/40 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300"
                 :title="isFullscreen ? t('fullscreen_exit') : t('fullscreen_enter')">
           <i :class="isFullscreen ? 'fa-solid fa-compress' : 'fa-solid fa-expand'"></i>
         </button>
         
         <!-- Settings Gear Toggle Button -->
         <button @click="isSettingsOpen = true" 
-                class="w-10 h-10 rounded-xl flex items-center justify-center border border-slate-700/50 bg-slate-900/60 text-slate-400 hover:text-white hover:border-cyan-500/40 transition duration-300">
+                class="w-10 h-10 rounded-xl flex items-center justify-center border border-slate-700/50 bg-slate-900/60 text-slate-400 hover:text-white hover:border-cyan-500/40 hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20 transition-all duration-300">
           <i class="fa-solid fa-gear animate-spin-slow"></i>
         </button>
       </div>
@@ -153,9 +153,9 @@
             <div class="flex flex-col items-center">
               <span class="text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">[[ t('hours') ]]</span>
               <div class="flex items-center bg-slate-900 border border-slate-800 rounded-2xl p-2">
-                <button @click="adjust('h', -1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white transition">-</button>
+                <button @click="adjust('h', -1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white hover:scale-110 transition-all duration-300">-</button>
                 <span class="w-12 text-center text-2xl font-bold font-mono-custom">[[ String(hours).padStart(2, '0') ]]</span>
-                <button @click="adjust('h', 1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white transition">+</button>
+                <button @click="adjust('h', 1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white hover:scale-110 transition-all duration-300">+</button>
               </div>
             </div>
             <!-- Divider -->
@@ -164,9 +164,9 @@
             <div class="flex flex-col items-center">
               <span class="text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">[[ t('minutes') ]]</span>
               <div class="flex items-center bg-slate-900 border border-slate-800 rounded-2xl p-2">
-                <button @click="adjust('m', -1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white transition">-</button>
+                <button @click="adjust('m', -1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white hover:scale-110 transition-all duration-300">-</button>
                 <span class="w-12 text-center text-2xl font-bold font-mono-custom">[[ String(minutes).padStart(2, '0') ]]</span>
-                <button @click="adjust('m', 1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white transition">+</button>
+                <button @click="adjust('m', 1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white hover:scale-110 transition-all duration-300">+</button>
               </div>
             </div>
             <!-- Divider -->
@@ -175,15 +175,15 @@
             <div class="flex flex-col items-center">
               <span class="text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">[[ t('seconds') ]]</span>
               <div class="flex items-center bg-slate-900 border border-slate-800 rounded-2xl p-2">
-                <button @click="adjust('s', -5)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white transition">-</button>
+                <button @click="adjust('s', -5)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white hover:scale-110 transition-all duration-300">-</button>
                 <span class="w-12 text-center text-2xl font-bold font-mono-custom">[[ String(seconds).padStart(2, '0') ]]</span>
-                <button @click="adjust('s', 5)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white transition">+</button>
+                <button @click="adjust('s', 5)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white hover:scale-110 transition-all duration-300">+</button>
               </div>
             </div>
           </div>
 
           <button @click="start" :disabled="totalSecondsSetting === 0"
-                  class="w-full mt-10 text-slate-950 font-extrabold py-4 px-6 rounded-2xl hover:brightness-110 active:scale-95 disabled:opacity-30 disabled:pointer-events-none transition"
+                  class="w-full mt-10 text-slate-950 font-extrabold py-4 px-6 rounded-2xl hover:brightness-110 hover:-translate-y-1 hover:shadow-xl active:scale-95 disabled:opacity-30 disabled:pointer-events-none transition-all duration-300"
                   :style="{ background: 'linear-gradient(135deg, var(--accent-color), #8b5cf6)', color: settings.theme === 'light' ? '#ffffff' : '#0b0f19', boxShadow: 'var(--accent-glow-intensity)' }">
             [[ t('start_timer') ]]
           </button>
@@ -205,21 +205,21 @@
           <!-- Controls -->
           <div class="flex gap-4 w-full">
             <button v-if="isRunning" @click="pause"
-                    class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold py-3.5 px-6 rounded-2xl active:scale-95 transition">
+                    class="flex-1 bg-slate-800 hover:bg-slate-700 hover:-translate-y-1 hover:shadow-xl text-slate-200 border border-slate-700 font-bold py-3.5 px-6 rounded-2xl active:scale-95 transition-all duration-300">
               [[ t('pause') ]]
             </button>
             <button v-else-if="isPaused" @click="resume"
-                    class="flex-1 text-slate-950 font-extrabold py-3.5 px-6 rounded-2xl active:scale-95 hover:brightness-110 transition"
+                    class="flex-1 text-slate-950 font-extrabold py-3.5 px-6 rounded-2xl active:scale-95 hover:brightness-110 hover:-translate-y-1 hover:shadow-xl transition-all duration-300"
                     :style="{ background: 'linear-gradient(135deg, var(--accent-color), #8b5cf6)', color: settings.theme === 'light' ? '#ffffff' : '#0b0f19', boxShadow: 'var(--accent-glow-intensity)' }">
               [[ t('resume') ]]
             </button>
             <button v-else-if="isFinished" @click="reset"
-                    class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold py-3.5 px-6 rounded-2xl active:scale-95 transition">
+                    class="flex-1 bg-slate-800 hover:bg-slate-700 hover:-translate-y-1 hover:shadow-xl text-slate-200 border border-slate-700 font-bold py-3.5 px-6 rounded-2xl active:scale-95 transition-all duration-300">
               [[ t('restart') ]]
             </button>
 
             <button @click="reset"
-                    class="px-6 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 font-bold py-3.5 rounded-2xl active:scale-95 transition">
+                    class="px-6 bg-rose-500/10 hover:bg-rose-500/20 hover:-translate-y-1 hover:shadow-xl hover:shadow-rose-500/20 text-rose-400 border border-rose-500/20 font-bold py-3.5 rounded-2xl active:scale-95 transition-all duration-300">
               [[ t('cancel') ]]
             </button>
           </div>
@@ -258,12 +258,12 @@
             <div class="grid grid-cols-2 gap-2 bg-slate-950/50 p-1 rounded-xl border border-slate-800">
               <button @click="setLang('en')" 
                       :class="settings.lang === 'en' ? 'bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-500/20' : 'text-slate-400 hover:text-white'"
-                      class="py-2 px-3 rounded-lg text-sm transition duration-200">
+                      class="py-2 px-3 rounded-lg text-sm hover:scale-105 transition-all duration-200">
                 English
               </button>
               <button @click="setLang('ja')" 
                       :class="settings.lang === 'ja' ? 'bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-500/20' : 'text-slate-400 hover:text-white'"
-                      class="py-2 px-3 rounded-lg text-sm transition duration-200">
+                      class="py-2 px-3 rounded-lg text-sm hover:scale-105 transition-all duration-200">
                 日本語
               </button>
             </div>
@@ -275,17 +275,17 @@
             <div class="grid grid-cols-3 gap-2 bg-slate-950/50 p-1 rounded-xl border border-slate-800">
               <button @click="setTheme('dark')" 
                       :class="settings.theme === 'dark' ? 'bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-500/20' : 'text-slate-400 hover:text-white'"
-                      class="py-2 px-1 rounded-lg text-xs transition duration-200">
+                      class="py-2 px-1 rounded-lg text-xs hover:scale-105 transition-all duration-200">
                 [[ t('theme_dark') ]]
               </button>
               <button @click="setTheme('light')" 
                       :class="settings.theme === 'light' ? 'bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-500/20' : 'text-slate-400 hover:text-white'"
-                      class="py-2 px-1 rounded-lg text-xs transition duration-200">
+                      class="py-2 px-1 rounded-lg text-xs hover:scale-105 transition-all duration-200">
                 [[ t('theme_light') ]]
               </button>
               <button @click="setTheme('neon')" 
                       :class="settings.theme === 'neon' ? 'bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-500/20' : 'text-slate-400 hover:text-white'"
-                      class="py-2 px-1 rounded-lg text-xs transition duration-200">
+                      class="py-2 px-1 rounded-lg text-xs hover:scale-105 transition-all duration-200">
                 [[ t('theme_neon') ]]
               </button>
             </div>
@@ -315,6 +315,14 @@
               </div>
               <input type="range" min="0" max="24" step="1" v-model.number="settings.bgBlur"
                      class="w-full h-1.5 bg-slate-950 rounded-lg appearance-none cursor-pointer accent-cyan-500">
+            </div>
+            
+            <div class="pt-2">
+              <button @click="toggleFullscreen" 
+                      class="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl border border-slate-700/50 bg-slate-900/60 text-slate-300 hover:text-white hover:border-cyan-500/40 hover:bg-slate-800 transition-all duration-200">
+                <i :class="isFullscreen ? 'fa-solid fa-compress' : 'fa-solid fa-expand'"></i>
+                <span class="text-sm font-semibold">[[ isFullscreen ? t('fullscreen_exit') : t('fullscreen_enter') ]]</span>
+              </button>
             </div>
           </div>
         </div>
