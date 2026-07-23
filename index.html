@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Premium Timer - Free Web Tools</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Outfit:wght@300;600;900&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Outfit', sans-serif;
+    }
+    .font-mono-custom {
+      font-family: 'Share Tech Mono', monospace;
+    }
+    .glass {
+      background: rgba(30, 41, 59, 0.45);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    .neon-glow-rose {
+      text-shadow: 0 0 10px rgba(244, 63, 94, 0.5), 0 0 20px rgba(244, 63, 94, 0.3);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col items-center justify-center p-4 overflow-hidden relative">
+  <!-- Background glow -->
+  <div class="absolute w-[500px] h-[500px] rounded-full bg-teal-500/10 blur-[120px] top-[-10%] left-[-10%] pointer-events-none"></div>
+  <div class="absolute w-[600px] h-[600px] rounded-full bg-blue-600/10 blur-[130px] bottom-[-20%] right-[-10%] pointer-events-none"></div>
+
+  <div id="app" v-cloak class="w-full max-w-lg z-10">
+    <!-- Back to portal link -->
+    <div class="mb-4 flex justify-between items-center px-2">
+      <a href="/" class="text-xs font-semibold text-slate-400 hover:text-rose-400 flex items-center gap-1 transition">
+        &larr; ポータルに戻る
+      </a>
+      <span class="text-xs font-semibold text-slate-500 uppercase tracking-widest">Tool // Timer</span>
+    </div>
+
+    <!-- Alarm visual flash overlays -->
+    <div v-if="isFinished" class="absolute inset-0 bg-rose-500/10 animate-pulse pointer-events-none z-0"></div>
+
+    <div class="glass rounded-3xl p-6 sm:p-10 shadow-2xl flex flex-col items-center relative overflow-hidden">
+      <!-- Decor header -->
+      <div class="w-full flex justify-between items-center mb-8 text-xs tracking-widest text-slate-500 font-semibold uppercase">
+        <span>Countdown Timer</span>
+        <span v-if="isRunning" class="text-rose-400 animate-pulse">Running</span>
+        <span v-else-if="isFinished" class="text-rose-500 font-bold">Finished!</span>
+        <span v-else>Set Time</span>
+      </div>
+
+      <!-- Settings Mode -->
+      <div v-if="!isRunning && !isPaused && !isFinished" class="w-full flex flex-col items-center py-6">
+        <div class="flex gap-4 sm:gap-6 justify-center items-center">
+          <!-- Hours -->
+          <div class="flex flex-col items-center">
+            <span class="text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">時</span>
+            <div class="flex items-center bg-slate-900 border border-slate-800 rounded-2xl p-2">
+              <button @click="adjust('h', -1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white transition">-</button>
+              <span class="w-12 text-center text-2xl font-bold font-mono-custom">[[ String(hours).padStart(2, '0') ]]</span>
+              <button @click="adjust('h', 1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white transition">+</button>
+            </div>
+          </div>
+          <!-- Divider -->
+          <span class="text-2xl font-bold text-slate-600 self-end mb-4">:</span>
+          <!-- Minutes -->
+          <div class="flex flex-col items-center">
+            <span class="text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">分</span>
+            <div class="flex items-center bg-slate-900 border border-slate-800 rounded-2xl p-2">
+              <button @click="adjust('m', -1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white transition">-</button>
+              <span class="w-12 text-center text-2xl font-bold font-mono-custom">[[ String(minutes).padStart(2, '0') ]]</span>
+              <button @click="adjust('m', 1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white transition">+</button>
+            </div>
+          </div>
+          <!-- Divider -->
+          <span class="text-2xl font-bold text-slate-600 self-end mb-4">:</span>
+          <!-- Seconds -->
+          <div class="flex flex-col items-center">
+            <span class="text-xs font-bold text-slate-500 mb-2 uppercase tracking-wider">秒</span>
+            <div class="flex items-center bg-slate-900 border border-slate-800 rounded-2xl p-2">
+              <button @click="adjust('s', -5)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white transition">-</button>
+              <span class="w-12 text-center text-2xl font-bold font-mono-custom">[[ String(seconds).padStart(2, '0') ]]</span>
+              <button @click="adjust('s', 5)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-slate-400 hover:text-white transition">+</button>
+            </div>
+          </div>
+        </div>
+
+        <button @click="start" :disabled="totalSecondsSetting === 0"
+                class="w-full mt-10 bg-gradient-to-r from-rose-500 to-pink-500 hover:brightness-110 active:scale-95 text-slate-950 font-extrabold py-4 px-6 rounded-2xl shadow-[0_0_15px_rgba(244,63,94,0.3)] disabled:opacity-30 disabled:pointer-events-none transition">
+          タイマー開始
+        </button>
+      </div>
+
+      <!-- Active Countdown Mode -->
+      <div v-else class="w-full flex flex-col items-center py-6">
+        <div class="text-5xl sm:text-7xl font-black font-mono-custom tracking-wider tabular-nums leading-none text-rose-500 neon-glow-rose mb-10 select-none">
+          [[ formattedTimeRemaining ]]
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="w-full bg-slate-900/50 h-1.5 rounded-full overflow-hidden border border-slate-900/50 mb-10">
+          <div class="h-full bg-gradient-to-r from-rose-600 to-pink-500 shadow-[0_0_10px_rgba(244,63,94,0.5)] transition-all duration-300"
+               :style="{ width: progressPercent + '%' }"></div>
+        </div>
+
+        <!-- Controls -->
+        <div class="flex gap-4 w-full">
+          <button v-if="isRunning" @click="pause"
+                  class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold py-3.5 px-6 rounded-2xl active:scale-95 transition">
+            一時停止
+          </button>
+          <button v-else-if="isPaused" @click="resume"
+                  class="flex-1 bg-gradient-to-r from-rose-500 to-pink-500 hover:brightness-110 text-slate-950 font-extrabold py-3.5 px-6 rounded-2xl active:scale-95 shadow-[0_0_15px_rgba(244,63,94,0.3)] transition">
+            再開
+          </button>
+          <button v-else-if="isFinished" @click="reset"
+                  class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-bold py-3.5 px-6 rounded-2xl active:scale-95 transition">
+            もう一度
+          </button>
+
+          <button @click="reset"
+                  class="px-6 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 font-bold py-3.5 rounded-2xl active:scale-95 transition">
+            キャンセル
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (() => {
+      const { createApp, ref, computed, onUnmounted } = Vue;
+
+      createApp({
+        compilerOptions: { delimiters: ['[[', ']]'] },
+        setup() {
+          const hours = ref(0);
+          const minutes = ref(1); // default 1 min
+          const seconds = ref(0);
+
+          const isRunning = ref(false);
+          const isPaused = ref(false);
+          const isFinished = ref(false);
+
+          const totalSecondsSetting = computed(() => {
+            return hours.value * 3600 + minutes.value * 60 + seconds.value;
+          });
+
+          const timeRemaining = ref(0);
+          let timerInterval = null;
+
+          const progressPercent = computed(() => {
+            const total = totalSecondsSetting.value;
+            if (total === 0) return 0;
+            return (timeRemaining.value / total) * 100;
+          });
+
+          const formattedTimeRemaining = computed(() => {
+            const r = timeRemaining.value;
+            const h = Math.floor(r / 3600);
+            const m = Math.floor((r % 3600) / 60);
+            const s = r % 60;
+            
+            const hStr = String(h).padStart(2, '0');
+            const mStr = String(m).padStart(2, '0');
+            const sStr = String(s).padStart(2, '0');
+            
+            return `${hStr}:${mStr}:${sStr}`;
+          });
+
+          const adjust = (type, amt) => {
+            if (type === 'h') {
+              hours.value = Math.max(0, Math.min(23, hours.value + amt));
+            } else if (type === 'm') {
+              let newVal = minutes.value + amt;
+              if (newVal < 0) newVal = 59;
+              else if (newVal > 59) newVal = 0;
+              minutes.value = newVal;
+            } else if (type === 's') {
+              let newVal = seconds.value + amt;
+              if (newVal < 0) newVal = 55;
+              else if (newVal > 59) newVal = 0;
+              seconds.value = newVal;
+            }
+          };
+
+          const start = () => {
+            const total = totalSecondsSetting.value;
+            if (total === 0) return;
+            
+            isFinished.value = false;
+            isPaused.value = false;
+            isRunning.value = true;
+            timeRemaining.value = total;
+
+            timerInterval = setInterval(() => {
+              if (timeRemaining.value > 1) {
+                timeRemaining.value--;
+              } else {
+                timeRemaining.value = 0;
+                finish();
+              }
+            }, 1000);
+          };
+
+          const pause = () => {
+            if (!isRunning.value) return;
+            isRunning.value = false;
+            isPaused.value = true;
+            if (timerInterval) clearInterval(timerInterval);
+          };
+
+          const resume = () => {
+            if (!isPaused.value) return;
+            isPaused.value = false;
+            isRunning.value = true;
+            
+            timerInterval = setInterval(() => {
+              if (timeRemaining.value > 1) {
+                timeRemaining.value--;
+              } else {
+                timeRemaining.value = 0;
+                finish();
+              }
+            }, 1000);
+          };
+
+          const finish = () => {
+            isRunning.value = false;
+            isFinished.value = true;
+            if (timerInterval) clearInterval(timerInterval);
+          };
+
+          const reset = () => {
+            isRunning.value = false;
+            isPaused.value = false;
+            isFinished.value = false;
+            timeRemaining.value = 0;
+            if (timerInterval) clearInterval(timerInterval);
+          };
+
+          onUnmounted(() => {
+            if (timerInterval) clearInterval(timerInterval);
+          });
+
+          return {
+            hours,
+            minutes,
+            seconds,
+            isRunning,
+            isPaused,
+            isFinished,
+            totalSecondsSetting,
+            timeRemaining,
+            progressPercent,
+            formattedTimeRemaining,
+            adjust,
+            start,
+            pause,
+            resume,
+            reset
+          };
+        }
+      }).mount('#app');
+    })();
+  </script>
+</body>
+</html>
