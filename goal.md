@@ -10,8 +10,6 @@ Build, refine, and verify the standalone frontend tool with full internationaliz
 
 ## Next actions
 
-1. Improve design detailing (transitions, premium micro-animations) to make it look premium and state-of-the-art.
-
 ## Acceptance criteria
 
 - [x] Standalone Playwright smoke test PASS
