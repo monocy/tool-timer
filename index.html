@@ -100,13 +100,7 @@
     <!-- Main Workspace Container -->
     <main class="relative z-10 w-full max-w-4xl mx-auto flex-grow flex flex-col items-center justify-center px-6 py-12">
       <div class="w-full glass-panel p-6 sm:p-10 rounded-3xl neon-shadow flex flex-col items-center relative overflow-hidden max-w-lg">
-        <!-- Decor Header -->
-        <div class="w-full flex justify-between items-center mb-8 text-[10px] tracking-widest text-[var(--text-muted)] font-semibold uppercase">
-          <span>[[ t('countdown_timer') ]]</span>
-          <span v-if="isRunning" class="text-rose-400 animate-pulse">[[ t('running') ]]</span>
-          <span v-else-if="isFinished" class="text-rose-500 font-bold">[[ t('finished') ]]</span>
-          <span v-else>[[ t('set_time') ]]</span>
-        </div>
+        
 
         <!-- Settings Mode -->
         <div v-if="!isRunning && !isPaused && !isFinished" class="w-full flex flex-col items-center py-6">
