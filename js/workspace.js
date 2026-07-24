@@ -4,39 +4,39 @@ const ToolWorkspace = {
     translations: { type: Object, required: true }
   },
   template: `
-    <div class="w-full glass-panel p-6 sm:p-10 rounded-3xl neon-shadow flex flex-col items-center relative overflow-hidden max-w-lg">
+    <div class="w-full glass-panel p-6 sm:p-10 rounded-3xl neon-shadow flex flex-col items-center relative overflow-hidden max-w-xl">
       <!-- Settings Mode -->
       <div v-if="!isRunning && !isPaused && !isFinished" class="w-full flex flex-col items-center py-6">
-        <div class="flex gap-4 sm:gap-6 justify-center items-center">
+        <div class="flex gap-2 sm:gap-6 justify-center items-center">
           <!-- Hours -->
           <div class="flex flex-col items-center">
             <span class="text-xs font-bold text-[var(--text-muted)] mb-2 uppercase tracking-wider">{{ t('hours') }}</span>
-            <div class="flex items-center bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-2">
-              <button @click="adjust('h', -1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:scale-110 transition-all duration-300">-</button>
-              <span class="w-12 text-center text-2xl font-bold font-mono-custom">{{ String(hours).padStart(2, '0') }}</span>
-              <button @click="adjust('h', 1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:scale-110 transition-all duration-300">+</button>
+            <div class="flex items-center bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-1 sm:p-2">
+              <button @click="adjust('h', -1)" class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-base sm:text-lg font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:scale-110 transition-all duration-300">-</button>
+              <span class="w-10 sm:w-12 text-center text-xl sm:text-2xl font-bold font-mono-custom">{{ String(hours).padStart(2, '0') }}</span>
+              <button @click="adjust('h', 1)" class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-base sm:text-lg font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:scale-110 transition-all duration-300">+</button>
             </div>
           </div>
           <!-- Divider -->
-          <span class="text-2xl font-bold text-[var(--text-muted)] self-end mb-4">:</span>
+          <span class="text-xl sm:text-2xl font-bold text-[var(--text-muted)] self-end mb-3 sm:mb-4">:</span>
           <!-- Minutes -->
           <div class="flex flex-col items-center">
             <span class="text-xs font-bold text-[var(--text-muted)] mb-2 uppercase tracking-wider">{{ t('minutes') }}</span>
-            <div class="flex items-center bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-2">
-              <button @click="adjust('m', -1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:scale-110 transition-all duration-300">-</button>
-              <span class="w-12 text-center text-2xl font-bold font-mono-custom">{{ String(minutes).padStart(2, '0') }}</span>
-              <button @click="adjust('m', 1)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:scale-110 transition-all duration-300">+</button>
+            <div class="flex items-center bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-1 sm:p-2">
+              <button @click="adjust('m', -1)" class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-base sm:text-lg font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:scale-110 transition-all duration-300">-</button>
+              <span class="w-10 sm:w-12 text-center text-xl sm:text-2xl font-bold font-mono-custom">{{ String(minutes).padStart(2, '0') }}</span>
+              <button @click="adjust('m', 1)" class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-base sm:text-lg font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:scale-110 transition-all duration-300">+</button>
             </div>
           </div>
           <!-- Divider -->
-          <span class="text-2xl font-bold text-[var(--text-muted)] self-end mb-4">:</span>
+          <span class="text-xl sm:text-2xl font-bold text-[var(--text-muted)] self-end mb-3 sm:mb-4">:</span>
           <!-- Seconds -->
           <div class="flex flex-col items-center">
             <span class="text-xs font-bold text-[var(--text-muted)] mb-2 uppercase tracking-wider">{{ t('seconds') }}</span>
-            <div class="flex items-center bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-2">
-              <button @click="adjust('s', -5)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:scale-110 transition-all duration-300">-</button>
-              <span class="w-12 text-center text-2xl font-bold font-mono-custom">{{ String(seconds).padStart(2, '0') }}</span>
-              <button @click="adjust('s', 5)" class="w-10 h-10 flex items-center justify-center text-lg font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:scale-110 transition-all duration-300">+</button>
+            <div class="flex items-center bg-[var(--bg-card)] border border-[var(--border-color)] rounded-2xl p-1 sm:p-2">
+              <button @click="adjust('s', -5)" class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-base sm:text-lg font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:scale-110 transition-all duration-300">-</button>
+              <span class="w-10 sm:w-12 text-center text-xl sm:text-2xl font-bold font-mono-custom">{{ String(seconds).padStart(2, '0') }}</span>
+              <button @click="adjust('s', 5)" class="w-8 h-8 sm:w-10 sm:h-10 flex items-center justify-center text-base sm:text-lg font-bold text-[var(--text-muted)] hover:text-[var(--text-main)] hover:scale-110 transition-all duration-300">+</button>
             </div>
           </div>
         </div>
